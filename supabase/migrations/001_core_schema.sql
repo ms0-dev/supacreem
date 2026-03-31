@@ -44,3 +44,13 @@ create index subscriptions_status_idx on public.subscriptions (status);
 create index subscriptions_user_status_idx on public.subscriptions (user_id, status);
 create index webhook_events_processed_idx on public.webhook_events (processed) where processed = false;
 create index webhook_events_created_at_idx on public.webhook_events (created_at desc);
+
+-- AVATARS STORAGE BUCKET
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'avatars',
+  'avatars',
+  true,
+  5242880, -- 5MB limit
+  array['image/jpeg', 'image/png', 'image/webp']
+);

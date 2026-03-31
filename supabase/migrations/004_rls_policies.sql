@@ -38,3 +38,9 @@ create policy "credit_plans_select_all" on public.credit_plans for select using 
 create policy "credit_plans_insert_service_role" on public.credit_plans for insert with check (auth.role() = 'service_role');
 create policy "credit_plans_update_service_role" on public.credit_plans for update using (auth.role() = 'service_role');
 create policy "credit_plans_delete_service_role" on public.credit_plans for delete using (auth.role() = 'service_role');
+
+-- AVATARS BUCKET
+create policy "avatars_select_all" on storage.objects for select using (bucket_id = 'avatars');
+create policy "avatars_insert_own" on storage.objects for insert with check (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
+create policy "avatars_update_own" on storage.objects for update using (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
+create policy "avatars_delete_own" on storage.objects for delete using (bucket_id = 'avatars' and auth.uid()::text = (storage.foldername(name))[1]);
